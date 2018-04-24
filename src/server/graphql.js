@@ -4,7 +4,7 @@ const { execute, subscribe } = require('graphql');
 const { createServer } = require('http');
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 const { PubSub } = require('graphql-subscriptions');
-const { topics, buildSchema } = require('./schema.js');
+const { buildSchema } = require('./schema.js');
 
 const pubsub = new PubSub();
 const PORT = 5000;
@@ -32,11 +32,9 @@ function initGraphql(app){
       });
   });
 
-  var count = 1;
-  setInterval(()=>{
-    const payload = { number: count++ };
-    pubsub.publish(topics.newBlocks, {newBlock: payload});
-  }, 300);
+  return {
+    pubsub
+  };
 }
 
 module.exports = { initGraphql };
