@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import BlockTable from '../BlockTable/BlockTable';
+
 
 class App extends Component {
-  componentWillReceiveProps({ data: { newBlock } }) {
-    console.log(newBlock.number);
-  }
-
   render() {
     return (
       <div className="App">
@@ -16,6 +12,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
+        <BlockTable />
         <div className="App-intro">
         </div>
       </div>
@@ -23,12 +20,4 @@ class App extends Component {
   }
 }
 
-const subNewNotification = gql`
-  subscription {
-    newBlock {
-      number
-    }
-  }
-`;
-
-export default graphql(subNewNotification)(App);
+export default App;

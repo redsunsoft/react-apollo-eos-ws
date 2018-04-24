@@ -1,6 +1,6 @@
 const { makeExecutableSchema } = require('graphql-tools');
 
-const blocks = [];
+const blocks = [{block_num: 1}];
 
 const topics = {
     newBlocks: 'newBlocks'
@@ -8,15 +8,15 @@ const topics = {
 
 const typeDefs = `
   type Query { blocks: [Block] }
-  type Block { number: Int }
-  type Subscription { newBlock: Block }
+  type Block { block_num: Int }
+  type Subscription { newBlocks: [Block] }
 `;
 
 const buildSchema = (pubsub) => {
   const resolvers = {
     Query: { blocks: () => blocks },
     Subscription: {
-      newBlock: {
+      newBlocks: {
         subscribe: () => pubsub.asyncIterator(topics.newBlocks)
       }
     },

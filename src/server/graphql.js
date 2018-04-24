@@ -33,9 +33,14 @@ function initGraphql(app){
       });
   });
 
+  const mapBlocks = (blocks) =>
+    blocks.map((block) => ({
+        block_num: block.block_num
+    }));
+
   const onNewBlockPub = (blocks) => {
-      pubsub.publish(topics.newBlocks, {newBlock: blocks});
-      console.log(blocks);
+      pubsub.publish(topics.newBlocks, {newBlocks: blocks});
+      console.log(mapBlocks(blocks));
   };
 
   return {
