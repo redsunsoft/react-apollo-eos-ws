@@ -5,6 +5,7 @@ const { createServer } = require('http');
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 const { PubSub } = require('graphql-subscriptions');
 const { buildSchema } = require('./schema.js');
+const { topics } = require('./schema.js');
 
 const pubsub = new PubSub();
 const PORT = 5000;
@@ -32,8 +33,13 @@ function initGraphql(app){
       });
   });
 
+  const onNewBlockPub = (blocks) => {
+      pubsub.publish(topics.newBlocks, {newBlock: blocks});
+      console.log(blocks);
+  };
+
   return {
-    pubsub
+    onNewBlockPub
   };
 }
 
