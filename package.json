@@ -23,8 +23,8 @@
   },
   "scripts": {
     "client": "react-scripts start",
-    "server": "nodemon src/server/server.js",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "server": "nodemon  --watch src/server src/server/server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"yarn client\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
