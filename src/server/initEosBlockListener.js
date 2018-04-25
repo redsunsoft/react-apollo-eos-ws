@@ -12,7 +12,7 @@ const fetchNewBlocks = async(newBlockHead) => {
 
     lastPushedBlock = Math.max(newBlockHead - MAX_LOOK_BACK, lastPushedBlock);
 
-    for (let blockNum = lastPushedBlock + 1; blockNum <= newBlockHead; blockNum++) {
+    for (let blockNum = newBlockHead; blockNum > lastPushedBlock; blockNum--) {
 
         blocks.push(await eos.getBlock(blockNum));
     }

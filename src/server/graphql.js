@@ -21,7 +21,6 @@ function initGraphql(app){
   }));
 
   const ws = createServer(app);
-
   ws.listen(PORT, () => {
     new SubscriptionServer({
         execute,

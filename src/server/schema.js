@@ -1,6 +1,6 @@
 const { makeExecutableSchema } = require('graphql-tools');
 
-const blocks = [{block_num: 1}];
+const blocks = [];
 
 const topics = {
     newBlocks: 'newBlocks'
