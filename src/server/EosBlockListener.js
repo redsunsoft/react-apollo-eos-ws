@@ -21,7 +21,7 @@ const fetchNewBlocks = async(newBlockHead) => {
     return blocks;
 };
 
-const initEosBlockListener = (onNewBlocks) => {
+const eosBlockListener = (onNewBlocks) => {
 
     setInterval(()=>{
         eos.getInfo({}).then(async(result) => {
@@ -40,5 +40,5 @@ const initEosBlockListener = (onNewBlocks) => {
 };
 
 module.exports = {
-    initEosBlockListener
+    initEosBlockListener: eosBlockListener
 };

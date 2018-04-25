@@ -8,20 +8,19 @@ const { buildSchema } = require('./schema.js');
 const { topics } = require('./schema.js');
 
 const pubsub = new PubSub();
-const PORT = 5000;
 
-function initGraphql(app){
+function initGraphql(app, port){
 
   const schema = buildSchema(pubsub);
 
   app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
   app.use('/graphiql', graphiqlExpress({
     endpointURL: '/graphql',
-    subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`
+    subscriptionsEndpoint: `ws://localhost:${port}/subscriptions`
   }));
 
   const ws = createServer(app);
-  ws.listen(PORT, () => {
+  ws.listen(port, () => {
     new SubscriptionServer({
         execute,
         subscribe,
@@ -32,14 +31,14 @@ function initGraphql(app){
       });
   });
 
-  const mapBlocks = (blocks) =>
-    blocks.map((block) => ({
-        block_num: block.block_num
-    }));
+  // const mapBlocks = (blocks) =>
+  //   blocks.map((block) => ({
+  //       block_num: block.block_num
+  //   }));
 
   const onNewBlockPub = (blocks) => {
       pubsub.publish(topics.newBlocks, {newBlocks: blocks});
-      console.log(mapBlocks(blocks));
+      console.log(JSON.stringify(blocks[0], null, '\t'));
   };
 
   return {

@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag'
+import { fullBlockQuery } from '../../../graphqlQueries/block';
 
 const MAX_BLOCKS = 10;
+
+const subNewBlocks = gql`
+  subscription {
+    newBlocks ${fullBlockQuery}
+  }
+`;// num, timestamp, input_transactions, producer
+
+const blockQuery = gql`
+  {
+    blocks ${fullBlockQuery}
+  }
+`;
 
 const BlockSubscriberWrapped = (WrappedComponent) => {
     class BlockSubscriber extends Component {
@@ -42,21 +55,5 @@ const BlockSubscriberWrapped = (WrappedComponent) => {
 
     return graphql(blockQuery)(BlockSubscriber);
 };
-
-const subNewBlocks = gql`
-  subscription {
-    newBlocks {
-      block_num
-    }
-  }
-`;
-
-const blockQuery = gql`
-  {
-    blocks{
-     block_num
-    }
-  }
-`;
 
 export default BlockSubscriberWrapped;
