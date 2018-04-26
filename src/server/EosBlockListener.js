@@ -7,7 +7,7 @@ const LOOP_INTERVAL_MS = 500;
 let lastPushedBlock = 0;
 let isFetchingBlocks = false;
 
-const fetchNewBlocks = async(newBlockHead) => {
+const fetchNewBlocks = async (newBlockHead) => {
     const blocks = [];
 
     lastPushedBlock = Math.max(newBlockHead - MAX_LOOK_BACK, lastPushedBlock);
@@ -23,8 +23,8 @@ const fetchNewBlocks = async(newBlockHead) => {
 
 const eosBlockListener = (onNewBlocks) => {
 
-    setInterval(()=>{
-        eos.getInfo({}).then(async(result) => {
+    setInterval(() => {
+        eos.getInfo({}).then(async (result) => {
 
             if (!isFetchingBlocks) {
                 isFetchingBlocks = true;

@@ -1,4 +1,4 @@
-const { makeExecutableSchema } = require('graphql-tools');
+const {makeExecutableSchema} = require('graphql-tools');
 
 const blocks = [];
 
@@ -48,20 +48,21 @@ const typeDefs = `
 `;
 
 const buildSchema = (pubsub) => {
-  const resolvers = {
-    Query: { blocks: () => blocks },
-    Subscription: {
-      newBlocks: {
-        subscribe: () => pubsub.asyncIterator(topics.newBlocks)
-      }
-    },
-  };
+    const resolvers = {
+        Query: {
+            blocks: () => blocks
+        },
+        Subscription: {
+            newBlocks: {
+                subscribe: () => pubsub.asyncIterator(topics.newBlocks)
+            }
+        },
+    };
 
-  return makeExecutableSchema({ typeDefs, resolvers })
+    return makeExecutableSchema({typeDefs, resolvers})
 };
 
 
 module.exports = {
-  topics,
-  buildSchema
+    topics, buildSchema
 };

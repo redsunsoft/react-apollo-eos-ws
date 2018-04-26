@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
+import React, {Component} from 'react';
+import {graphql} from 'react-apollo';
 import gql from 'graphql-tag'
-import { fullBlockQuery } from '../../../graphqlQueries/block';
+import {fullBlockQuery} from '../../../graphqlQueries/block';
 
 const MAX_BLOCKS = 10;
 
@@ -33,24 +33,20 @@ const BlockSubscriberWrapped = (WrappedComponent) => {
             this.subscribeToNewBlocks();
         }
 
-        pauseDataStream(newState){
+        pauseDataStream(newState) {
             this.setState({isStreamPaused: newState})
         }
 
         subscribeToNewBlocks() {
             this.props.data.subscribeToMore({
-                document: subNewBlocks,
-                updateQuery: (prev, {subscriptionData}) => {
+                document: subNewBlocks, updateQuery: (prev, {subscriptionData}) => {
                     if (!subscriptionData.data || this.state.isStreamPaused) return prev;
 
                     const newBlocks = subscriptionData.data.newBlocks || [];
                     let newBlockList = newBlocks.concat(prev.blocks);
 
                     // Trim the list to the X most recent blocks
-                    newBlockList = newBlockList.slice(
-                        0,
-                        Math.min(newBlockList.length, MAX_BLOCKS)
-                    );
+                    newBlockList = newBlockList.slice(0, Math.min(newBlockList.length, MAX_BLOCKS));
 
                     return Object.assign({}, prev, {blocks: newBlockList});
                 }
@@ -60,14 +56,12 @@ const BlockSubscriberWrapped = (WrappedComponent) => {
         render() {
             const blocks = (this.props.data && this.props.data.blocks) || [];
 
-            return (
-                <WrappedComponent
+            return (<WrappedComponent
                     blocks={blocks}
                     isStreamPaused={this.state.isStreamPaused}
                     pauseDataStream={this.pauseDataStream}
                     {...this.props}
-                />
-            );
+                />);
         }
     }
 
