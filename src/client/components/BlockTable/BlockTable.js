@@ -1,3 +1,7 @@
+/**
+ * This component uses BlockSubscriber to retreive a stream of blocks and
+ * create a list of block items
+ */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import BlockSubscriber from './BlockSubscriber';

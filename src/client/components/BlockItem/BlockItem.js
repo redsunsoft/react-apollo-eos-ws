@@ -1,3 +1,6 @@
+/**
+ * This component represents a single block
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 import './BlockItem.css';

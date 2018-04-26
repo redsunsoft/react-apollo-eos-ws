@@ -1,3 +1,7 @@
+/**
+ * This file listens for new blocks on localhost and calls "onNewBlocks" when
+ * new blocks are found
+ */
 const eosJS = require('eosjs');
 
 const eos = eosJS.Localnet();
@@ -7,6 +11,7 @@ const LOOP_INTERVAL_MS = 500;
 let lastPushedBlock = 0;
 let isFetchingBlocks = false;
 
+// Fetch all new blocks to the passed in new head
 const fetchNewBlocks = async (newBlockHead) => {
     const blocks = [];
 
@@ -21,6 +26,7 @@ const fetchNewBlocks = async (newBlockHead) => {
     return blocks;
 };
 
+// Grab the new head and then dispatch a request for the new blocks
 const checkForNewBlocks = async(onNewBlocks) => {
     eos.getInfo({}).then( async(result) => {
 
@@ -36,6 +42,7 @@ const checkForNewBlocks = async(onNewBlocks) => {
     });
 };
 
+// Create the listener loop
 const eosBlockListener = (onNewBlocks) => {
     let listenerLoopTimer;
 

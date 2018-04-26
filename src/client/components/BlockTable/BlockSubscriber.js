@@ -1,3 +1,7 @@
+/**
+ * This HOC creates a subscription to the websocket and listen for new blocks.
+ * It then passes those down as props to its children.
+ */
 import React, {Component} from 'react';
 import {graphql} from 'react-apollo';
 import gql from 'graphql-tag'

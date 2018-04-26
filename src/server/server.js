@@ -8,6 +8,8 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 
+// Initialize the graphql server and retrieve the pub/sub for new blocks
 const {onNewBlockPub} = initGraphql(app, port);
 
+// Initialize the block listener and pass the cb for new blocks
 initEosBlockListener(onNewBlockPub);
