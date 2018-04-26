@@ -38,7 +38,7 @@ function initGraphql(app, port){
 
   const onNewBlockPub = (blocks) => {
       pubsub.publish(topics.newBlocks, {newBlocks: blocks});
-      console.log(JSON.stringify(blocks[0], null, '\t'));
+      //console.log(JSON.stringify(blocks[0].block_num, null, '\t'));
   };
 
   return {

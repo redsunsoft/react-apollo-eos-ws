@@ -1,41 +1,61 @@
-import React from 'react';
+import React, { Component } from 'react';
 import BlockSubscriber from './BlockSubscriber';
+import BlockItem from '../BlockItem/BlockItem';
 import './BlockTable.css';
 
-const BlockItem = ({block}) => {
-    return (
-        <div className="block-container">
-                <div class="block-num">Block# {block.block_num}</div>
-                <div className="block-details">
-                    <span className="block-detail-item">
-                        <span className="block-label">Timestamp: </span>
-                        {block.timestamp}
-                    </span>
-                    <span className="block-detail-item">
-                        <span className="block-label">Producer: </span>
-                        {block.producer}
-                    </span>
-                    <span className="block-detail-item">
-                        <span className="block-label"># Transactions: </span>
-                        {0}
-                    </span>
 
+class BlockTable extends Component {
+
+        constructor(props) {
+            super(props);
+            this.state = {
+                blockShowingDetails: null
+            };
+
+            this.showBlockDetail = this.showBlockDetail.bind(this);
+            this.toggleDataStream = this.toggleDataStream.bind(this);
+        }
+
+        showBlockDetail(blockNum){
+            // Close an open detail pane
+            if (this.state.blockShowingDetails === blockNum){
+                this.setState({blockShowingDetails: null});
+                this.props.pauseDataStream(false);
+            } else {
+                this.setState({blockShowingDetails: blockNum});
+                this.props.pauseDataStream(true);
+            }
+        }
+
+        toggleDataStream(){
+            this.setState({blockShowingDetails: null});
+            this.props.pauseDataStream(!this.props.isStreamPaused);
+        }
+
+        render() {
+            const {blocks, isStreamPaused} = this.props;
+
+            return (
+                <div className="blocks-container">
+                    <button
+                        className="pauseButton"
+                        onClick={this.toggleDataStream}
+                    >
+                        {isStreamPaused ? "Unpause": "Pause"} Stream
+                    </button>
+
+                    {blocks.map((block) =>
+                        <BlockItem
+                            key={`block-${block.block_num}`}
+                            block={block}
+                            showDetail={block.block_num === this.state.blockShowingDetails}
+                            showBlockDetail={this.showBlockDetail}
+                        />
+                    )}
 
                 </div>
-        </div>
-    );
-};
-
-const BlockTable = (props) => {
-    const blocks = props.blocks || [];
-
-    return (
-        <div className="blocks-container">
-            {blocks.map((block) =>
-                <BlockItem block={block} />
-            )}
-        </div>
-    );
-};
+            );
+        }
+    }
 
 export default BlockSubscriber(BlockTable);

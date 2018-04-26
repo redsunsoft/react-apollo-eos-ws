@@ -20,15 +20,28 @@ const blockQuery = gql`
 const BlockSubscriberWrapped = (WrappedComponent) => {
     class BlockSubscriber extends Component {
 
+        constructor(props) {
+            super(props);
+            this.state = {
+                isStreamPaused: false
+            };
+
+            this.pauseDataStream = this.pauseDataStream.bind(this);
+        }
+
         componentDidMount() {
             this.subscribeToNewBlocks();
+        }
+
+        pauseDataStream(newState){
+            this.setState({isStreamPaused: newState})
         }
 
         subscribeToNewBlocks() {
             this.props.data.subscribeToMore({
                 document: subNewBlocks,
                 updateQuery: (prev, {subscriptionData}) => {
-                    if (!subscriptionData.data) return prev;
+                    if (!subscriptionData.data || this.state.isStreamPaused) return prev;
 
                     const newBlocks = subscriptionData.data.newBlocks || [];
                     let newBlockList = newBlocks.concat(prev.blocks);
@@ -48,7 +61,12 @@ const BlockSubscriberWrapped = (WrappedComponent) => {
             const blocks = (this.props.data && this.props.data.blocks) || [];
 
             return (
-                <WrappedComponent blocks={blocks} {...this.props}/>
+                <WrappedComponent
+                    blocks={blocks}
+                    isStreamPaused={this.state.isStreamPaused}
+                    pauseDataStream={this.pauseDataStream}
+                    {...this.props}
+                />
             );
         }
     }

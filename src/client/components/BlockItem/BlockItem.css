@@ -1,0 +1,29 @@
+.block-container {
+  background-color: white;
+  box-shadow: 1px 1px rgba(203, 203, 203, 0.53);
+  padding: 5px;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+.block-num{
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.block-label{
+  font-weight: bold;
+}
+
+.block-meta{
+  font-size: .9em;
+}
+
+.block-meta-item{
+  margin-right: 20px;
+}
+
+.block-details{
+  text-align: left;
+}

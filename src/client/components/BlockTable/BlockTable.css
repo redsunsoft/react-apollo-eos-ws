@@ -1,31 +1,19 @@
 .blocks-container {
   background-color: #eeeff3;
   padding: 20px;
-  text-align: left;
+  text-align: center;
 }
 
-.block-num{
-  font-size: 1em;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.block-label{
-  font-weight: bold;
-}
-
-.block-details{
-  font-size: .8em;
-}
-
-.block-detail-item{
-  margin-right: 20px;
-}
-
-.block-container {
+.pauseButton {
+  border: 1px solid black;
   background-color: white;
-  box-shadow: 1px 1px rgba(203, 203, 203, 0.53);
-  padding: 5px;
-  border-radius: 3px;
+  padding: 10px 15px;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
   margin-bottom: 20px;
+}
+
+.pauseButton:hover {
+  background-color: #ccc;
 }
