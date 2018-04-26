@@ -9,7 +9,7 @@ const subNewBlocks = gql`
   subscription {
     newBlocks ${fullBlockQuery}
   }
-`;// num, timestamp, input_transactions, producer
+`;
 
 const blockQuery = gql`
   {
@@ -39,7 +39,8 @@ const BlockSubscriberWrapped = (WrappedComponent) => {
 
         subscribeToNewBlocks() {
             this.props.data.subscribeToMore({
-                document: subNewBlocks, updateQuery: (prev, {subscriptionData}) => {
+                document: subNewBlocks,
+                updateQuery: (prev, {subscriptionData} = {}) => {
                     if (!subscriptionData.data || this.state.isStreamPaused) return prev;
 
                     const newBlocks = subscriptionData.data.newBlocks || [];

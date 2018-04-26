@@ -21,22 +21,32 @@ const fetchNewBlocks = async (newBlockHead) => {
     return blocks;
 };
 
-const eosBlockListener = (onNewBlocks) => {
+const checkForNewBlocks = async(onNewBlocks) => {
+    eos.getInfo({}).then( async(result) => {
 
-    setInterval(() => {
-        eos.getInfo({}).then(async (result) => {
-
-            if (!isFetchingBlocks) {
-                isFetchingBlocks = true;
-                const blocks = await fetchNewBlocks(result.head_block_num);
-                if (blocks.length) {
-                    onNewBlocks(blocks);
-                }
-                isFetchingBlocks = false;
+        if (!isFetchingBlocks) {
+            isFetchingBlocks = true;
+            const blocks = await fetchNewBlocks(result.head_block_num);
+            if (blocks.length) {
+                onNewBlocks(blocks);
             }
+            isFetchingBlocks = false;
+        } else console.log('skip');
 
-        });
-    }, LOOP_INTERVAL_MS);
+    });
+};
+
+const eosBlockListener = (onNewBlocks) => {
+    let listenerLoopTimer;
+
+    const listenForNewBlocks = () => {
+        listenerLoopTimer = setTimeout(async() => {
+            await checkForNewBlocks(onNewBlocks);
+            listenForNewBlocks();
+        }, LOOP_INTERVAL_MS);
+    };
+
+    listenForNewBlocks();
 };
 
 module.exports = {

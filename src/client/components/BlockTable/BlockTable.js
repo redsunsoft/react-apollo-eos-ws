@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import BlockSubscriber from './BlockSubscriber';
 import BlockItem from '../BlockItem/BlockItem';
 import './BlockTable.css';
@@ -54,4 +55,11 @@ class BlockTable extends Component {
     }
 }
 
+BlockTable.propTypes = {
+    blocks: PropTypes.arrayOf(PropTypes.object).isRequired,
+    isStreamPaused: PropTypes.bool,
+    pauseDataStream: PropTypes.func
+};
+
 export default BlockSubscriber(BlockTable);
+export {BlockTable};
