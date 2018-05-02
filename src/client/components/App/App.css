@@ -14,3 +14,8 @@ body {
 	padding: 20px;
 	color: white;
 }
+
+.App-intro{
+	background-color: #eeeff3;
+	padding: 20px;
+}

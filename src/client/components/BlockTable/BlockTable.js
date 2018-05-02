@@ -1,10 +1,9 @@
 /**
- * This component uses BlockSubscriber to retreive a stream of blocks and
- * create a list of block items
+ * This component receives a list of blocks and
+ * creates a list of block items
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import BlockSubscriber from './BlockSubscriber';
 import BlockItem from '../BlockItem/BlockItem';
 import './BlockTable.css';
 
@@ -18,7 +17,6 @@ class BlockTable extends Component {
         };
 
         this.showBlockDetail = this.showBlockDetail.bind(this);
-        this.toggleDataStream = this.toggleDataStream.bind(this);
     }
 
     showBlockDetail(blockNum) {
@@ -32,38 +30,24 @@ class BlockTable extends Component {
         }
     }
 
-    toggleDataStream() {
-        this.setState({blockShowingDetails: null});
-        this.props.pauseDataStream(!this.props.isStreamPaused);
-    }
-
     render() {
-        const {blocks, isStreamPaused} = this.props;
+        const {blocks = []} = this.props;
 
-        return (<div className="blocks-container">
-                <button
-                    className="pauseButton"
-                    onClick={this.toggleDataStream}
-                >
-                    {isStreamPaused ? "Unpause" : "Pause"} Stream
-                </button>
-
+        return (
+            <div className="blocks-container">
                 {blocks.map((block) => <BlockItem
                     key={`block-${block.block_num}`}
                     block={block}
                     showDetail={block.block_num === this.state.blockShowingDetails}
                     showBlockDetail={this.showBlockDetail}
                 />)}
-
-            </div>);
+            </div>
+        );
     }
 }
 
 BlockTable.propTypes = {
-    blocks: PropTypes.arrayOf(PropTypes.object).isRequired,
-    isStreamPaused: PropTypes.bool,
-    pauseDataStream: PropTypes.func
+    blocks: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
-export default BlockSubscriber(BlockTable);
-export {BlockTable};
+export default BlockTable;
